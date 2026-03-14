@@ -12,12 +12,23 @@
         .menu-item { border: 1px solid #ddd; padding: 15px; border-radius: 8px; }
         .menu-item h3 { margin: 0 0 10px 0; }
         .price { color: #8B4513; font-weight: bold; }
+        .carousel { margin: 20px 0; }
+        .carousel img { border-radius: 8px; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to PerkPoint</h1>
         <p>Your favorite coffee shop for premium brews and pastries.</p>
+        
+        <!-- Image Carousel -->
+        <div class="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="assets/landing.png" alt="Coffee Shop Interior" style="width: 100%; max-height: 400px; object-fit: cover;">
+                </div>
+            </div>
+        </div>
         
         <h2>Our Menu</h2>
         <div id="menu" class="menu">
