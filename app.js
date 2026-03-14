@@ -32,6 +32,18 @@ app.get('/', (req, res) => {
   res.send('Welcome to PerkPoint Coffee Shop!');
 });
 
+// User registration
+app.post('/api/auth/register', async (req, res) => {
+  try {
+    const { username, email, password, role = 'customer' } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    // TODO: Save to database
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Registration failed' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
