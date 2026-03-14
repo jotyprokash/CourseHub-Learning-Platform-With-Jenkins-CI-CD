@@ -38,8 +38,38 @@ async function initDatabase() {
     `);
 
     console.log('Database tables created successfully');
+    
+    // Seed initial data
+    await seedDatabase();
   } catch (error) {
     console.error('Error creating tables:', error);
+  }
+}
+
+async function seedDatabase() {
+  try {
+    // Seed menu items
+    const menuItems = [
+      { name: 'Espresso', price: 2.50, category: 'coffee' },
+      { name: 'Americano', price: 3.00, category: 'coffee' },
+      { name: 'Latte', price: 4.00, category: 'coffee' },
+      { name: 'Cappuccino', price: 4.50, category: 'coffee' },
+      { name: 'Mocha', price: 4.75, category: 'coffee' },
+      { name: 'Croissant', price: 3.25, category: 'pastry' },
+      { name: 'Muffin', price: 2.75, category: 'pastry' },
+      { name: 'Bagel', price: 2.50, category: 'pastry' }
+    ];
+
+    for (const item of menuItems) {
+      await pool.query(
+        'INSERT INTO menu_items (name, price, category) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING',
+        [item.name, item.price, item.category]
+      );
+    }
+
+    console.log('Database seeded successfully');
+  } catch (error) {
+    console.error('Error seeding database:', error);
   }
 }
 
