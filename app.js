@@ -129,6 +129,17 @@ app.delete('/api/admin/menu/:id', authenticateToken, requireAdmin, (req, res) =>
   }
 });
 
+// Contact form submission
+app.post('/api/contact', (req, res) => {
+  try {
+    const { name, email, message } = req.body;
+    // TODO: Send email or save to database
+    res.json({ message: 'Message sent successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to send message' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
