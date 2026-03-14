@@ -57,6 +57,16 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
+// Get menu items
+app.get('/api/menu', (req, res) => {
+  // TODO: Fetch from database
+  const menu = [
+    { id: 1, name: 'Espresso', price: 2.50, category: 'coffee' },
+    { id: 2, name: 'Latte', price: 4.00, category: 'coffee' }
+  ];
+  res.json(menu);
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
