@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PerkPoint Coffee Shop</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #8B4513; text-align: center; }
+        .menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
+        .menu-item { border: 1px solid #ddd; padding: 15px; border-radius: 8px; }
+        .menu-item h3 { margin: 0 0 10px 0; }
+        .price { color: #8B4513; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to PerkPoint</h1>
+        <p>Your favorite coffee shop for premium brews and pastries.</p>
+        
+        <h2>Our Menu</h2>
+        <div id="menu" class="menu">
+            <!-- Menu items will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Load menu items
+        async function loadMenu() {
+            try {
+                const response = await fetch('/api/menu');
+                const menu = await response.json();
+                const menuDiv = document.getElementById('menu');
+                menuDiv.innerHTML = menu.map(item => `
+                    <div class="menu-item">
+                        <h3>${item.name}</h3>
+                        <p class="price">$${item.price.toFixed(2)}</p>
+                        <p>${item.category}</p>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading menu:', error);
+            }
+        }
+
+        loadMenu();
+    </script>
+</body>
+</html>
