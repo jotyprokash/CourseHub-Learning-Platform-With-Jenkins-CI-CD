@@ -27,6 +27,14 @@ const authenticateToken = (req, res, next) => {
   }
 };
 
+// Admin middleware
+const requireAdmin = (req, res, next) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Admin access required' });
+  }
+  next();
+};
+
 // Basic route
 app.get('/', (req, res) => {
   res.send('Welcome to PerkPoint Coffee Shop!');
