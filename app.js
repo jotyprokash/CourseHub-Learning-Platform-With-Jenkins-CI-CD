@@ -140,6 +140,17 @@ app.post('/api/contact', (req, res) => {
   }
 });
 
+// Newsletter subscription
+app.post('/api/newsletter', (req, res) => {
+  try {
+    const { email } = req.body;
+    // TODO: Add to mailing list
+    res.json({ message: 'Subscribed to newsletter successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Subscription failed' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
