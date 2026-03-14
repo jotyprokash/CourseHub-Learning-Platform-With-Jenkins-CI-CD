@@ -8,7 +8,9 @@
 
 A modern, full-stack coffee shop ordering platform built with Node.js, Express, PostgreSQL, and JWT authentication. Features a responsive frontend, admin panel, and complete CI/CD pipeline.
 
-![Workflow](workflow.jpg)
+## Screenshots
+
+![Landing Page](screenshots/landing.png)
 
 ## Features
 
@@ -72,39 +74,6 @@ A modern, full-stack coffee shop ordering platform built with Node.js, Express, 
 docker-compose up --build
 ```
 
-## Architecture
-
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Frontend      │    │   Express API   │    │   PostgreSQL    │
-│   (HTML/CSS/JS) │◄──►│   (Node.js)     │◄──►│   Database      │
-│                 │    │                 │    │                 │
-│ • Menu Display  │    │ • Auth Routes   │    │ • Users         │
-│ • Order Forms   │    │ • Menu CRUD     │    │ • Menu Items    │
-│ • User Auth     │    │ • Order Mgmt    │    │ • Orders        │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
-
-## Project Structure
-
-```
-perkpoint/
-├── app.js                 # Main Express application
-├── db.js                  # PostgreSQL connection
-├── init-db.js            # Database initialization
-├── app.test.js           # Jest test suite
-├── package.json          # Dependencies and scripts
-├── Dockerfile            # Container configuration
-├── docker-compose.yml    # Multi-container setup
-├── Jenkinsfile           # CI/CD pipeline
-├── public/
-│   └── index.html        # Frontend interface
-├── scripts/
-│   └── generate_assets.py # Asset generation script
-├── assets/               # Generated images
-└── README.md            # This file
-```
-
 ## API Endpoints
 
 ### Authentication
@@ -151,7 +120,3 @@ Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before contributing.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Authors
-
-- Joty Prokash - Initial work - jotyprokash
