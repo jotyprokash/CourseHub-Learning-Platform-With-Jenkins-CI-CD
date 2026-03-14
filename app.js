@@ -94,6 +94,41 @@ app.get('/api/orders', authenticateToken, (req, res) => {
   res.json(orders);
 });
 
+// Admin: Add menu item
+app.post('/api/admin/menu', authenticateToken, requireAdmin, (req, res) => {
+  try {
+    const { name, price, category } = req.body;
+    // TODO: Save to database
+    const item = { id: Date.now(), name, price, category };
+    res.status(201).json(item);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to add menu item' });
+  }
+});
+
+// Admin: Update menu item
+app.put('/api/admin/menu/:id', authenticateToken, requireAdmin, (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, price, category } = req.body;
+    // TODO: Update in database
+    res.json({ id, name, price, category });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update menu item' });
+  }
+});
+
+// Admin: Delete menu item
+app.delete('/api/admin/menu/:id', authenticateToken, requireAdmin, (req, res) => {
+  try {
+    const { id } = req.params;
+    // TODO: Delete from database
+    res.json({ message: 'Menu item deleted' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete menu item' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
