@@ -44,6 +44,19 @@ app.post('/api/auth/register', async (req, res) => {
   }
 });
 
+// User login
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    // TODO: Fetch user from database
+    const user = { id: 1, email, role: 'customer' }; // Mock user
+    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET);
+    res.json({ token, user: { id: user.id, email: user.email, role: user.role } });
+  } catch (error) {
+    res.status(500).json({ error: 'Login failed' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
