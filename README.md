@@ -1,4 +1,4 @@
-# PerkPoint ☕
+# PerkPoint
 
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue.svg)](https://www.postgresql.org/)
@@ -8,21 +8,21 @@
 
 A modern, full-stack coffee shop ordering platform built with Node.js, Express, PostgreSQL, and JWT authentication. Features a responsive frontend, admin panel, and complete CI/CD pipeline.
 
-![PerkPoint Landing](assets/landing.png)
+![Workflow](workflow.jpg)
 
-## ✨ Features
+## Features
 
-- **🔐 JWT Authentication** - Secure user registration and login
-- **👑 Role-Based Access** - Customer and admin user roles
-- **🛒 Order Management** - Place and track coffee orders
-- **📋 Dynamic Menu** - Admin-controlled menu items
-- **💳 Payment Ready** - Prepared for payment integration
-- **📱 Responsive Design** - Mobile-friendly interface
-- **🐳 Docker Support** - Containerized deployment
-- **🔄 CI/CD Pipeline** - Automated testing and deployment
-- **📊 Admin Dashboard** - Menu and order management
+- JWT Authentication - Secure user registration and login
+- Role-Based Access - Customer and admin user roles
+- Order Management - Place and track coffee orders
+- Dynamic Menu - Admin-controlled menu items
+- Payment Ready - Prepared for payment integration
+- Responsive Design - Mobile-friendly interface
+- Docker Support - Containerized deployment
+- CI/CD Pipeline - Automated testing and deployment
+- Admin Dashboard - Menu and order management
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js 18+
@@ -31,18 +31,18 @@ A modern, full-stack coffee shop ordering platform built with Node.js, Express, 
 
 ### Local Development
 
-1. **Clone the repository**
+1. Clone the repository
    ```bash
    git clone https://github.com/jotyprokash/Jenkins-CI-CD-Pipeline-Setup.git
    cd Jenkins-CI-CD-Pipeline-Setup
    ```
 
-2. **Install dependencies**
+2. Install dependencies
    ```bash
    npm install
    ```
 
-3. **Set up environment variables**
+3. Set up environment variables
    Create a `.env` file:
    ```env
    JWT_SECRET=your-secret-key
@@ -53,17 +53,17 @@ A modern, full-stack coffee shop ordering platform built with Node.js, Express, 
    DB_PASSWORD=password
    ```
 
-4. **Initialize database**
+4. Initialize database
    ```bash
    node init-db.js
    ```
 
-5. **Start the application**
+5. Start the application
    ```bash
    npm start
    ```
 
-6. **Open your browser**
+6. Open your browser
    Navigate to `http://localhost:3000`
 
 ### Docker Development
@@ -72,7 +72,7 @@ A modern, full-stack coffee shop ordering platform built with Node.js, Express, 
 docker-compose up --build
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
@@ -85,9 +85,7 @@ docker-compose up --build
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
-![Workflow Diagram](assets/workflow.png)
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 perkpoint/
@@ -107,7 +105,7 @@ perkpoint/
 └── README.md            # This file
 ```
 
-## 🔧 API Endpoints
+## API Endpoints
 
 ### Authentication
 - `POST /api/auth/register` - User registration
@@ -127,13 +125,7 @@ perkpoint/
 - `POST /api/contact` - Contact form submission
 - `POST /api/newsletter` - Newsletter subscription
 
-## 🧪 Testing
-
-```bash
-npm test
-```
-
-## 🚢 Deployment
+## Deployment
 
 ### Docker Deployment
 ```bash
@@ -148,30 +140,18 @@ The included Jenkinsfile provides:
 - Registry pushing
 - Deployment triggers
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-## 📋 Code of Conduct
+## Code of Conduct
 
 Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before contributing.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👥 Authors
+## Authors
 
-- **Joty Prokash** - *Initial work* - [jotyprokash](https://github.com/jotyprokash)
-
-## 🙏 Acknowledgments
-
-- Coffee lovers everywhere
-- Open source community
-- Node.js and PostgreSQL teams
-
----
-
-![PerkPoint Logo](assets/logo.png)
-
-*Made with ❤️ for coffee enthusiasts*
+- Joty Prokash - Initial work - jotyprokash
