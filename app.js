@@ -67,6 +67,25 @@ app.get('/api/menu', (req, res) => {
   res.json(menu);
 });
 
+// Place order
+app.post('/api/orders', authenticateToken, (req, res) => {
+  try {
+    const { items } = req.body;
+    // TODO: Save to database
+    const order = { id: Date.now(), userId: req.user.id, items, status: 'pending' };
+    res.status(201).json(order);
+  } catch (error) {
+    res.status(500).json({ error: 'Order failed' });
+  }
+});
+
+// Get user orders
+app.get('/api/orders', authenticateToken, (req, res) => {
+  // TODO: Fetch from database
+  const orders = [{ id: 1, items: [], status: 'completed' }];
+  res.json(orders);
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
