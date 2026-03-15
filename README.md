@@ -1,37 +1,36 @@
-# PerkPoint
+# CourseHub - Online Learning Platform
 
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.5+-black.svg)](https://nextjs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue.svg)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)
-[![Jenkins](https://img.shields.io/badge/Jenkins-CI/CD-red.svg)](https://www.jenkins.io/)
+[![Express.js](https://img.shields.io/badge/Express.js-4.18+-green.svg)](https://expressjs.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A modern, full-stack coffee shop ordering platform built with Node.js, Express, PostgreSQL, and JWT authentication. Features a responsive frontend, admin panel, and complete CI/CD pipeline.
-
-## Screenshots
-
-![Landing Page](screenshots/landing.png)
+A production-ready online learning platform with course management, student enrollment, and progress tracking. Built with Next.js, Express.js, PostgreSQL, and containerized with Docker.
 
 ## Features
 
-- JWT Authentication - Secure user registration and login
-- Role-Based Access - Customer and admin user roles
-- Order Management - Place and track coffee orders
-- Dynamic Menu - Admin-controlled menu items
-- Payment Ready - Prepared for payment integration
-- Responsive Design - Mobile-friendly interface
-- Docker Support - Containerized deployment
-- CI/CD Pipeline - Automated testing and deployment
-- Admin Dashboard - Menu and order management
+- **JWT Authentication** - Secure user registration and login with token-based auth
+- **Role-Based Access Control** - Admin and student user roles with appropriate permissions
+- **Course Management** - Admins can create and manage courses with lessons
+- **Student Enrollment** - Students can browse and enroll in courses
+- **Progress Tracking** - Track lesson completion and student progress
+- **YouTube Integration** - Embed YouTube videos directly in lessons
+- **Responsive Design** - Mobile-friendly interface with TailwindCSS
+- **RESTful API** - Complete REST API for course management and enrollment
+- **Docker Containerization** - Multi-service deployment with docker-compose
+- **PostgreSQL Database** - Normalized schema with 5 tables and referential integrity
 
 ## Quick Start
 
 ### Prerequisites
 - Node.js 18+
 - PostgreSQL 15+
-- Docker & Docker Compose (optional)
+- Docker & Docker Compose
+- Git
 
-### Local Development
+### Using Docker (Recommended)
 
 1. Clone the repository
    ```bash
@@ -39,75 +38,136 @@ A modern, full-stack coffee shop ordering platform built with Node.js, Express, 
    cd Jenkins-CI-CD-Pipeline-Setup
    ```
 
-2. Install dependencies
+2. Configure environment
    ```bash
-   npm install
+   cp .env.example .env
    ```
 
-3. Set up environment variables
-   Create a `.env` file:
-   ```env
-   JWT_SECRET=your-secret-key
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_NAME=perkpoint
-   DB_USER=postgres
-   DB_PASSWORD=password
-   ```
-
-4. Initialize database
+3. Deploy with Docker Compose
    ```bash
-   node init-db.js
+   docker compose up --build
    ```
 
-5. Start the application
-   ```bash
-   npm start
-   ```
+4. Access the application
+   - **Frontend:** http://localhost:3000
+   - **Backend API:** http://localhost:5000/api
+   - **Database:** localhost:5432
 
-6. Open your browser
-   Navigate to `http://localhost:3000`
+### Demo Credentials
 
-### Docker Development
+**Admin Account:**
+- Email: `admin@example.com`
+- Password: `admin123`
 
-```bash
-docker-compose up --build
-```
-
+**Student Accounts:**
+- Email: `student1@example.com` | Password: `student123`
+- Email: `student2@example.com` | Password: `student123`
 ## API Endpoints
 
 ### Authentication
 - `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
+- `POST /api/auth/login` - User login (returns JWT token)
 
-### Menu
-- `GET /api/menu` - Get all menu items
-- `POST /api/admin/menu` - Add menu item (Admin)
-- `PUT /api/admin/menu/:id` - Update menu item (Admin)
-- `DELETE /api/admin/menu/:id` - Delete menu item (Admin)
+### Courses
+- `GET /api/courses` - Get all courses
+- `GET /api/courses/:id` - Get course with lessons
+- `POST /api/courses` - Create course (Admin only)
 
-### Orders
-- `POST /api/orders` - Place new order
-- `GET /api/orders` - Get user orders
+### Lessons
+- `GET /api/courses/:id/lessons` - Get lessons for a course
+- `POST /api/lessons` - Create lesson (Admin only)
 
-### Other
-- `POST /api/contact` - Contact form submission
-- `POST /api/newsletter` - Newsletter subscription
+### Enrollment
+- `POST /api/enrollment` - Enroll student in course
+- `GET /api/enrollment` - Get student enrollments
 
-## Deployment
+### Progress
+- `GET /api/progress` - Get student progress
+- `POST /api/progress` - Mark lesson as completed
 
-### Docker Deployment
-```bash
-docker build -t perkpoint .
-docker run -p 3000:3000 perkpoint
+## Tech Stack
+
+### Frontend
+- **Framework:** Next.js 15.5 with App Router
+- **Language:** TypeScript with strict mode
+- **Styling:** TailwindCSS 3.3
+- **HTTP Client:** Axios with JWT interceptor
+- **Validation:** React Hook Form + Zod
+- **Icons:** Lucide React
+
+### Backend
+- **Runtime:** Node.js 18 (Alpine)
+- **Framework:** Express.js 4.18
+- **Authentication:** JWT Token-based
+- **Password Hashing:** bcryptjs
+- **Database Client:** pg (PostgreSQL)
+
+### Database
+- **Engine:** PostgreSQL 15
+- **Normalization:** 5 normalized tables
+- **Relationships:** Foreign keys with referential integrity
+- **Constraints:** UNIQUE constraints on enrollments and progress
+
+### Infrastructure
+- **Containerization:** Docker
+- **Orchestration:** Docker Compose
+- **Development:** Multi-stage builds, Alpine base images
+
+## Project Structure
+
+```
+├── backend/                 # Express API server
+│   ├── server.js           # Main server file
+│   ├── db.js               # PostgreSQL connection
+│   ├── middleware/         # Auth middleware
+│   └── routes/             # API endpoints
+├── frontend/               # Next.js web app
+│   ├── app/                # Next.js App Router
+│   ├── components/         # React components
+│   ├── lib/                # Utilities (api, auth)
+│   └── public/             # Static assets
+├── database/               # Database setup
+│   ├── schema.sql          # Table definitions
+│   └── seed.sql            # Demo data
+├── docker-compose.yml      # Multi-service orchestration
+└── README.md               # This file
 ```
 
-### Jenkins CI/CD
-The included Jenkinsfile provides:
-- Automated testing
-- Docker image building
-- Registry pushing
-- Deployment triggers
+## Getting Started with Development
+
+### Backend Development
+```bash
+cd backend
+npm install
+npm start
+```
+
+Backend runs on `http://localhost:5000`
+
+### Frontend Development
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend runs on `http://localhost:3000`
+
+### Database Setup
+Ensure PostgreSQL 15 is running, then:
+```bash
+psql -U postgres -d course_platform < database/schema.sql
+psql -U postgres -d course_platform < database/seed.sql
+```
+
+## Security Features
+
+- **JWT Authentication** - Token-based stateless auth
+- **Password Hashing** - bcryptjs with $2a$ format
+- **Role-Based Access** - Admin and student roles
+- **CORS Enabled** - Cross-origin requests configured
+- **Environment Variables** - Sensitive config in .env
+- **Input Validation** - Server-side validation on all endpoints
 
 ## Contributing
 
