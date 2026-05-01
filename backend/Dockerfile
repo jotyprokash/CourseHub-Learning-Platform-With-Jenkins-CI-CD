@@ -2,7 +2,9 @@
 FROM node:18-alpine AS builder
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm install --production
+# Use BuildKit cache for npm
+RUN --mount=type=cache,target=/root/.npm \
+    npm install --production
 
 # Stage 2: Runtime
 FROM node:18-alpine AS runner
