@@ -8,16 +8,13 @@ Online learning platform used as the application workload for a Jenkins CI/CD pi
 
 ## Architecture
 
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│  Frontend   │────▶│   Backend   │────▶│  PostgreSQL  │
-│  Next.js    │     │  Express.js │     │     15       │
-│  :3000      │     │  :5000      │     │  :5432       │
-└─────────────┘     └─────────────┘     └─────────────┘
-       │                   │                    │
-       └───────────────────┴────────────────────┘
-                    Docker Compose
-```
+![CourseHub DevSecOps Architecture](docs/coursehub-architecture.png)
+
+### DevSecOps Capabilities
+*   **Infrastructure**: Self-managed Kubernetes (EC2).
+*   **Pipeline Security**: Automated integration of Gitleaks, SonarQube, Snyk, and Checkov.
+*   **Runtime Protection**: HashiCorp Vault for secrets; Falco for threat detection.
+*   **DAST Audit**: Automated OWASP ZAP scanning against the Ingress layer.
 
 ## Quick Start
 
