@@ -31,4 +31,23 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 });
 
+// GET /api/enrollment
+router.get('/', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const result = await pool.query(
+      `SELECT c.*, u.name as instructor_name 
+       FROM courses c 
+       JOIN enrollments e ON c.id = e.course_id 
+       JOIN users u ON c.instructor_id = u.id
+       WHERE e.user_id = $1`,
+      [userId]
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch enrollments' });
+  }
+});
+
 export default router;
