@@ -2,10 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-  height: 100%;
+@layer base {
+  :root {
+    --font-inter: 'Inter', sans-serif;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-background text-gray-900 font-sans antialiased selection:bg-primary-200 selection:text-primary-900;
+  }
 }
 
-* {
-  scroll-behavior: smooth;
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-sm;
+  }
+  
+  .glass-dark {
+    @apply bg-primary-900/80 backdrop-blur-md border border-primary-700/50 shadow-lg text-white;
+  }
+  
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom Scrollbar for a premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
