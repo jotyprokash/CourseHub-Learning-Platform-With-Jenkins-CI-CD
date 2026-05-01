@@ -3,7 +3,7 @@ export function getToken() {
   return localStorage.getItem('coursehub-token');
 }
 
-export function clearToken() {
+export function logout() {
   if (typeof window === 'undefined') return;
   localStorage.removeItem('coursehub-token');
 }
