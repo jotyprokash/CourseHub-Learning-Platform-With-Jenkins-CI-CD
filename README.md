@@ -1,67 +1,87 @@
-# CourseHub
+# 🎓 CourseHub: Production-Grade DevSecOps Platform
 
-[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)
-[![Jenkins](https://img.shields.io/badge/Jenkins-CI%2FCD-red.svg)](https://www.jenkins.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Jenkins CI/CD](https://img.shields.io/badge/Jenkins-Pipeline-blue?style=for-the-badge&logo=jenkins)](https://jenkins.io)
+[![Kubernetes](https://img.shields.io/badge/Kubernetes-k3s-blue?style=for-the-badge&logo=kubernetes)](https://kubernetes.io)
+[![Helm](https://img.shields.io/badge/Helm-Chart-blue?style=for-the-badge&logo=helm)](https://helm.sh)
+[![Security](https://img.shields.io/badge/Security-DevSecOps-red?style=for-the-badge&logo=safe)](https://owasp.org)
 
-Online learning platform used as the application workload for a Jenkins CI/CD pipeline demonstration. The focus of this repository is **infrastructure and deployment automation**, not the application itself.
+CourseHub is a high-availability online learning platform built with a **Security-First** mindset. This project demonstrates a complete DevSecOps lifecycle, from automated "Shift-Left" security testing to elastic Kubernetes orchestration.
 
-## Architecture
+---
 
-![CourseHub DevSecOps Architecture](docs/coursehub-architecture.png)
+## 🏗️ Architectural Overview
 
-### DevSecOps Capabilities
-*   **Infrastructure**: Self-managed Kubernetes (EC2).
-*   **Pipeline Security**: Automated integration of Gitleaks, SonarQube, Snyk, and Checkov.
-*   **Runtime Protection**: HashiCorp Vault for secrets; Falco for threat detection.
-*   **DAST Audit**: Automated OWASP ZAP scanning against the Ingress layer.
+![Architecture Diagram](docs/coursehub-architecture.png)
 
-## Quick Start
+### 🚀 Technical Stack
+*   **Frontend**: Next.js (Optimized Standalone mode)
+*   **Backend**: Node.js & Express
+*   **Database**: PostgreSQL (StatefulSet for data persistence)
+*   **Orchestration**: Kubernetes / k3s (EBS-backed storage, HPA scaling)
+*   **Infrastructure Management**: Helm (Package manager)
 
+---
+
+## 🛡️ DevSecOps Pipeline (Jenkins)
+
+The CI/CD pipeline implements a "Defense in Depth" strategy across 7 automated stages:
+
+1.  **SAST (Semgrep)**: Automated static analysis to find code vulnerabilities.
+2.  **Secrets Audit (Gitleaks)**: Scans the history to ensure no API keys or passwords are leaked.
+3.  **Code Quality (SonarQube)**: Enforces coding standards and tracks technical debt.
+4.  **SCA (Trivy)**: Scans Docker images for known CVEs in the OS and dependencies.
+5.  **Helm Deployment**: Atomic, versioned deployments to Kubernetes.
+6.  **DAST (OWASP ZAP)**: Automated penetration testing of the live staging environment.
+7.  **Vulnerability Management**: Centralized reporting via DefectDojo.
+
+---
+
+## ☸️ Kubernetes Design Patterns
+
+*   **StatefulSets**: Used for PostgreSQL to ensure stable network identity and zero-data-loss storage migration.
+*   **HPA (Horizontal Pod Autoscaler)**: Automatically scales Backend and Frontend pods based on CPU load (Scales from 2 up to 10 replicas).
+*   **Ingress Controller**: Managed via Nginx with ModSecurity WAF rules enabled.
+*   **NetworkPolicies**: Implements Zero-Trust by isolating the database from the public internet.
+
+---
+
+## 🛠️ Local Development (Minikube)
+
+To run this platform on your local machine:
+
+### 1. Prerequisites
+*   Docker & Minikube
+*   Helm v3
+
+### 2. Setup Minikube
 ```bash
-cp .env.example .env
-docker compose up --build -d
+minikube start --driver=docker
+minikube addons enable ingress
 ```
 
-| Service    | URL                    |
-|------------|------------------------|
-| Frontend   | http://localhost:3000   |
-| Backend    | http://localhost:5000   |
-| PostgreSQL | localhost:5432          |
+### 3. Deploy the Platform
+```bash
+# Point to Minikube's Docker daemon
+eval $(minikube docker-env)
 
-## Project Structure
+# Build images locally
+docker build -t jotyprokash/coursehub-backend:latest ./backend
+docker build -t jotyprokash/coursehub-frontend:latest ./frontend
 
-```
-├── backend/              # Express.js API (ESM, JWT auth, pg)
-├── frontend/             # Next.js 15 (TypeScript, TailwindCSS)
-├── database/
-│   ├── schema.sql        # DDL — 5 normalized tables
-│   └── seed.sql          # Demo data
-├── docker-compose.yml    # Multi-service orchestration
-├── Jenkinsfile           # CI/CD pipeline definition
-└── .env.example          # Environment template
+# Install via Helm
+helm install coursehub ./helm/coursehub
 ```
 
-## CI/CD Pipeline
+### 4. Access the App
+Update your `/etc/hosts`:
+```bash
+echo "$(minikube ip) coursehub.local api.coursehub.local" | sudo tee -a /etc/hosts
+minikube tunnel
+```
+Visit: **[http://coursehub.local](http://coursehub.local)**
 
-The `Jenkinsfile` defines a declarative pipeline with the following stages:
+---
 
-1. **Checkout** — Pull source from SCM
-2. **Install Dependencies** — `npm install`
-3. **Run Tests** — `npm test`
-4. **Build Docker Image** — Multi-stage build
-5. **Push to Registry** — Tag and push to Docker Hub
-6. **Deploy** — Deployment trigger (configurable)
-
-## Environment Variables
-
-| Variable            | Default            | Description              |
-|---------------------|--------------------|--------------------------|
-| `POSTGRES_DB`       | `course_platform`  | Database name            |
-| `POSTGRES_USER`     | `postgres`         | Database user            |
-| `POSTGRES_PASSWORD` | `changeme`         | Database password        |
-| `JWT_SECRET`        | `change-me`        | JWT signing secret       |
-
-## License
-
-MIT
+## 👨‍💻 Author
+**Joty Prokash**  
+*Senior DevSecOps Architect*
