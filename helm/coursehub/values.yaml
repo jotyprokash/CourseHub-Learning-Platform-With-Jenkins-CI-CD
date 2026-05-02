@@ -1,0 +1,57 @@
+# Global configuration
+namespace: coursehub
+
+# Image settings
+image:
+  repository: jotyprokash/coursehub
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+# Database configuration
+database:
+  name: "course_platform"
+  user: "postgres"
+  password: "changeme" # Should be injected via secrets in production
+  storage: 2Gi
+
+# Workload scaling
+replicaCount:
+  backend: 2
+  frontend: 2
+
+# Resource limits
+resources:
+  backend:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+  frontend:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+
+# Ingress settings
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    frontend: coursehub.local
+    backend: api.coursehub.local
+
+# HPA settings
+autoscaling:
+  enabled: true
+  backend:
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+  frontend:
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 80
