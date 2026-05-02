@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:15-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-course_platform}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
@@ -9,11 +10,24 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
       - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
-    ports:
-      - "5432:5432"
+    networks:
+      - backend_nw
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
     ports:
       - "5000:5000"
     environment:
@@ -24,19 +38,47 @@ services:
       DB_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       JWT_SECRET: ${JWT_SECRET:-change-me}
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    networks:
+      - backend_nw
+      - frontend_nw
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
 
   frontend:
     build:
       context: ./frontend
       args:
         - NEXT_PUBLIC_API_URL=http://localhost:5000/api
+    restart: unless-stopped
     ports:
       - "3000:3000"
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:5000/api
     depends_on:
-      - backend
+      backend:
+        condition: service_started
+    networks:
+      - frontend_nw
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1G
+
+networks:
+  frontend_nw:
+    driver: bridge
+  backend_nw:
+    driver: bridge
 
 volumes:
   postgres_data:
